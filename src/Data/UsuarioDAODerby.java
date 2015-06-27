@@ -3,8 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Business;
-import Data.*;
+package Data;
+import Business.UsuarioDAO;
 import Domain.Usuario;
 import java.util.List;
 
