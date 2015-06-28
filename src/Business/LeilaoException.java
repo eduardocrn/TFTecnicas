@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Domain;
+package Business;
 
-public enum Natureza {
-    OFERTA (1),
-    DEMANDA(2);
-    
-    public int valor; 
-    Natureza(int valor) { 
-        this.valor = valor; 
+/**
+ *
+ * @author Eduardo
+ */
+public class LeilaoException extends Exception{
+    public LeilaoException(String msg){
+        super(msg);
     }
 }

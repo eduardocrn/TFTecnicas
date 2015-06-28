@@ -5,17 +5,21 @@
  */
 package Ui;
 
+import Business.LeilaoFachada;
+
 /**
  *
  * @author Eduardo
  */
 public class MainWindow extends javax.swing.JFrame {
 
+    private LeilaoFachada fachada;
     /**
      * Creates new form MainWindow
      */
     public MainWindow() {
         initComponents();
+        fachada = new LeilaoFachada();
     }
 
     /**
@@ -27,21 +31,129 @@ public class MainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnNovoLeilao = new javax.swing.JButton();
+        btnNovoLance = new javax.swing.JButton();
+        btnNovoUsuario = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblLeilao = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1024, 768));
+
+        btnNovoLeilao.setText("Novo Leilão");
+        btnNovoLeilao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNovoLeilaoActionPerformed(evt);
+            }
+        });
+
+        btnNovoLance.setText("Novo Lance");
+        btnNovoLance.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNovoLanceActionPerformed(evt);
+            }
+        });
+
+        btnNovoUsuario.setText("Novo Usuário");
+        btnNovoUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNovoUsuarioActionPerformed(evt);
+            }
+        });
+
+        tblLeilao.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Data inicio", "Hora inicio", "Data Fim", "Hora Fim", "Natureza", "Forma", "Valor", "Responsável"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblLeilao.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblLeilaoMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblLeilao);
+
+        jLabel1.setText("Leilões");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 995, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnNovoUsuario)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnNovoLance)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnNovoLeilao))
+                            .addComponent(jLabel1))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnNovoUsuario)
+                    .addComponent(btnNovoLance)
+                    .addComponent(btnNovoLeilao))
+                .addGap(20, 20, 20)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(109, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnNovoLanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoLanceActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnNovoLanceActionPerformed
+
+    private void btnNovoLeilaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoLeilaoActionPerformed
+        JanelaLeilao leilaoFrame = new JanelaLeilao();
+        leilaoFrame.setVisible(true);
+    }//GEN-LAST:event_btnNovoLeilaoActionPerformed
+
+    private void btnNovoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoUsuarioActionPerformed
+        JanelaUsuario usuarioJFrame = new JanelaUsuario();
+        usuarioJFrame.setVisible(true);
+        
+    }//GEN-LAST:event_btnNovoUsuarioActionPerformed
+
+    private void tblLeilaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLeilaoMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblLeilaoMouseClicked
 
     /**
      * @param args the command line arguments
@@ -79,5 +191,11 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnNovoLance;
+    private javax.swing.JButton btnNovoLeilao;
+    private javax.swing.JButton btnNovoUsuario;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblLeilao;
     // End of variables declaration//GEN-END:variables
 }

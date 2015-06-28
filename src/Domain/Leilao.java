@@ -8,15 +8,12 @@ package Domain;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.util.Date;
 
-/**
- *
- * @author Eduardo
- */
 public class Leilao {
     private int idLeilao;
-    private LocalDate dataInicio;
-    private LocalDate dataFim;
+    private Date dataInicio;
+    private Date dataFim;
     private Time horaInicio;
     private Time horaFim;
     private Natureza natureza;
@@ -24,7 +21,7 @@ public class Leilao {
     private BigDecimal valorLote;
     private Usuario usuario;
     
-    public Leilao(int idLeilao, LocalDate dataInicio, LocalDate dataFim, Time horaInicio,
+    public Leilao(int idLeilao, Date dataInicio, Date dataFim, Time horaInicio,
             Time horaFim, Natureza natureza, FormaLance formaLance, BigDecimal valorLote, Usuario usuario) {
         this.dataFim = dataFim;
         this.dataInicio = dataInicio;
@@ -41,11 +38,11 @@ public class Leilao {
         return idLeilao;
     }
 
-    public LocalDate getDataInicio() {
+    public Date getDataInicio() {
         return dataInicio;
     }
 
-    public LocalDate getDataFim() {
+    public Date getDataFim() {
         return dataFim;
     }
 

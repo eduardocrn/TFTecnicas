@@ -5,10 +5,6 @@
  */
 package Domain;
 
-/**
- *
- * @author Eduardo
- */
 public class Bem {
     private int idBem;
     private String descricaoBreve;

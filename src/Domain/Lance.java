@@ -9,10 +9,6 @@ import java.math.BigDecimal;
 import java.sql.Time;
 import java.time.LocalDate;
 
-/**
- *
- * @author Eduardo
- */
 public class Lance {
     private int idLance;
     private LocalDate data;

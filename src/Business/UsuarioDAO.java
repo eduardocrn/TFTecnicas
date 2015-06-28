@@ -4,15 +4,16 @@
  * and open the template in the editor.
  */
 package Business;
+import Data.CpfCnpjDuplicadoException;
+import Data.CpfInexistenteException;
+import Data.DAOException;
 import Domain.*;
 import java.util.List;
-/**
- *
- * @author Eduardo
- */
+
 public interface UsuarioDAO {
-    public boolean criarUsuario(Usuario usuario);
-    public boolean atualizarUsuario(Usuario usuario);
-    Usuario buscarUsuario(int idUsuario);
-    List<Usuario> buscarTodos();
+    public boolean criarUsuario(Usuario usuario) throws CpfCnpjDuplicadoException, DAOException;
+    public boolean atualizarUsuario(Usuario usuario) throws CpfInexistenteException, DAOException;
+    Usuario buscarUsuarioId(int idUsuario) throws DAOException;
+    Usuario buscarUsuarioCpfCnpj(String cpfCnpj) throws DAOException;
+    List<Usuario> buscarTodos() throws DAOException;
 }

@@ -5,10 +5,6 @@
  */
 package Domain;
 
-/**
- *
- * @author Eduardo
- */
 public enum FormaLance {
     ABERTO (1),
     FECHADO(2);
