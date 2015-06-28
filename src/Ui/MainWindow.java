@@ -35,8 +35,12 @@ public class MainWindow extends javax.swing.JFrame {
         btnNovoLance = new javax.swing.JButton();
         btnNovoUsuario = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblLeilao = new javax.swing.JTable();
+        tableLeilao = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        btnNovaCategoria = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tableLances = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1024, 768));
@@ -62,22 +66,19 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        tblLeilao.setModel(new javax.swing.table.DefaultTableModel(
+        tableLeilao.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Data inicio", "Hora inicio", "Data Fim", "Hora Fim", "Natureza", "Forma", "Valor", "Responsável"
+                "Código Leilão", "Data inicio", "Hora inicio", "Data Fim", "Hora Fim", "Natureza", "Forma", "Valor", "Responsável"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -88,14 +89,49 @@ public class MainWindow extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblLeilao.addMouseListener(new java.awt.event.MouseAdapter() {
+        tableLeilao.setMinimumSize(new java.awt.Dimension(150, 0));
+        tableLeilao.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblLeilaoMouseClicked(evt);
+                tableLeilaoMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tblLeilao);
+        jScrollPane1.setViewportView(tableLeilao);
 
         jLabel1.setText("Leilões");
+
+        btnNovaCategoria.setText("Nova Categoria");
+        btnNovaCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNovaCategoriaActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Lances");
+
+        tableLances.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Usuário", "Data", "Hora", "Valor", "Código Leilão"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tableLances);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -105,39 +141,54 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 995, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 995, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnNovaCategoria)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnNovoUsuario)))
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnNovoUsuario)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnNovoLance)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnNovoLeilao))
-                            .addComponent(jLabel1))
+                            .addComponent(btnNovoLance)
+                            .addComponent(btnNovoLeilao))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnNovoUsuario)
-                    .addComponent(btnNovoLance)
-                    .addComponent(btnNovoLeilao))
-                .addGap(20, 20, 20)
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnNovoUsuario)
+                        .addComponent(btnNovaCategoria))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jLabel1)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnNovoLeilao)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(109, Short.MAX_VALUE))
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnNovoLance)
+                .addGap(24, 24, 24))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNovoLanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoLanceActionPerformed
-        // TODO add your handling code here:
+        JanelaLance lanceFrame = new JanelaLance();
+        lanceFrame.setVisible(true);
     }//GEN-LAST:event_btnNovoLanceActionPerformed
 
     private void btnNovoLeilaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoLeilaoActionPerformed
@@ -151,9 +202,14 @@ public class MainWindow extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnNovoUsuarioActionPerformed
 
-    private void tblLeilaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLeilaoMouseClicked
+    private void tableLeilaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableLeilaoMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_tblLeilaoMouseClicked
+    }//GEN-LAST:event_tableLeilaoMouseClicked
+
+    private void btnNovaCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaCategoriaActionPerformed
+        JanelaCategoria categoriaFrame = new JanelaCategoria();
+        categoriaFrame.setVisible(true);
+    }//GEN-LAST:event_btnNovaCategoriaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -191,11 +247,15 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnNovaCategoria;
     private javax.swing.JButton btnNovoLance;
     private javax.swing.JButton btnNovoLeilao;
     private javax.swing.JButton btnNovoUsuario;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblLeilao;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable tableLances;
+    private javax.swing.JTable tableLeilao;
     // End of variables declaration//GEN-END:variables
 }
