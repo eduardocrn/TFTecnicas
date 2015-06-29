@@ -187,18 +187,18 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNovoLanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoLanceActionPerformed
-        JanelaLance lanceFrame = new JanelaLance();
-        lanceFrame.setVisible(true);
+        DlgLance dlgLance = new DlgLance(this, true);
+        dlgLance.setVisible(true);
     }//GEN-LAST:event_btnNovoLanceActionPerformed
 
     private void btnNovoLeilaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoLeilaoActionPerformed
-        JanelaLeilao leilaoFrame = new JanelaLeilao();
+        DlgLeilao leilaoFrame = new DlgLeilao(this, true);
         leilaoFrame.setVisible(true);
     }//GEN-LAST:event_btnNovoLeilaoActionPerformed
 
     private void btnNovoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoUsuarioActionPerformed
-        JanelaUsuario usuarioJFrame = new JanelaUsuario();
-        usuarioJFrame.setVisible(true);
+        DlgUsuario dlgUsuario = new DlgUsuario(this,true,fachada);
+        dlgUsuario.setVisible(true);
         
     }//GEN-LAST:event_btnNovoUsuarioActionPerformed
 
@@ -207,8 +207,8 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_tableLeilaoMouseClicked
 
     private void btnNovaCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaCategoriaActionPerformed
-        JanelaCategoria categoriaFrame = new JanelaCategoria();
-        categoriaFrame.setVisible(true);
+        DlgCategoria dl = new DlgCategoria(this, true);
+        dl.setVisible(true);
     }//GEN-LAST:event_btnNovaCategoriaActionPerformed
 
     /**

@@ -7,8 +7,6 @@ package Ui;
 
 import Business.LeilaoException;
 import Business.LeilaoFachada;
-import Data.CpfCnpjDuplicadoException;
-import Data.DAOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -17,13 +15,18 @@ import javax.swing.JOptionPane;
  *
  * @author Eduardo
  */
-public class JanelaUsuario extends javax.swing.JFrame {
-
+public class DlgUsuario extends javax.swing.JDialog {
+    private final LeilaoFachada fachada;
     /**
-     * Creates new form JanelaUsuario
+     * Creates new form DlgUsuario
+     * @param parent
+     * @param modal
+     * @param fachada
      */
-    public JanelaUsuario() {
-        initComponents();
+     public DlgUsuario(java.awt.Frame parent, boolean modal, LeilaoFachada fachada) {
+        super(parent, modal);
+        initComponents();  
+        this.fachada = fachada;
     }
 
     /**
@@ -48,7 +51,7 @@ public class JanelaUsuario extends javax.swing.JFrame {
 
         jLabel2.setText("jLabel2");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Cadastrar Usuário");
 
@@ -139,55 +142,19 @@ public class JanelaUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCpfCnpjActionPerformed
     
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        LeilaoFachada fachada = new LeilaoFachada();
         try {
             boolean resultado = fachada.novoUsuario(txtNome.getText(), txtEmail.getText(), txtCpfCnpj.getText());
             if(resultado)
                 this.dispose();
         } catch(LeilaoException e) {
             JOptionPane.showMessageDialog(null, "Erro: "+e.getMessage());
-            Logger.getLogger(JanelaUsuario.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(DlgUsuario.class.getName()).log(Level.SEVERE, null, e);
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnCancelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelaActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelaActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JanelaUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JanelaUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JanelaUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JanelaUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new JanelaUsuario().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancela;
