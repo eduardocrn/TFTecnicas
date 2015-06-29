@@ -15,8 +15,7 @@ import org.apache.derby.jdbc.*;
  */
 public class InicializadorBd {
     
-    public static String DB_NAME = "jdbc:derby://localhost:1527/TrabalhoFnal";
-    //public static String DATA_SOURCE = "jdbc:derby://localhost:1527/TrabalhoFnal";
+    public static String DB_NAME = "trabalho";
     public static String USER_NAME = "usuario";
     public static String PASSWORD = "senha";
     private static DataSource dataSource;
@@ -97,6 +96,6 @@ public class InicializadorBd {
     }
 
     public static Connection conectarBd() throws Exception {
-        return criarDataSource().getConnection();
+         return criarDataSource().getConnection();
     }
 }

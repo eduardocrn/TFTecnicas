@@ -21,13 +21,12 @@ public class UsuarioDAODerby implements UsuarioDAO{
         if (buscarUsuarioCpfCnpj(usuario.getCpfCnpj()) != null) {
             throw new CpfCnpjDuplicadoException("CPF/CNPJ já existe no banco de dados : " + usuario.getCpfCnpj());
         }
-        String sql = "INSERT INTO Usuario (idUsuario, CpfCnpj, Nome, Email) VALUES (?,?,?,?)";
+        String sql = "INSERT INTO Usuarios (CpfCnpj, Nome, Email) VALUES (?,?,?)";
         try (Connection conexao = InicializadorBd.conectarBd()) {
             try (PreparedStatement comando = conexao.prepareStatement(sql)) {
-                comando.setInt(1, usuario.getIdUsuario());
-                comando.setString(2, usuario.getCpfCnpj());
-                comando.setString(3, usuario.getNome());
-                comando.setString(4, usuario.getEmail());
+                comando.setString(1, usuario.getCpfCnpj());
+                comando.setString(2, usuario.getNome());
+                comando.setString(3, usuario.getEmail());
                 resultado = comando.executeUpdate();
             }
         } catch (Exception ex) {
