@@ -5,6 +5,9 @@
  */
 package Ui;
 
+import Business.Fachada;
+import Domain.Usuario;
+
 /**
  *
  * @author Eduardo
@@ -14,12 +17,21 @@ public class DlgLance extends javax.swing.JDialog {
     /**
      * Creates new form DlgLance
      */
-     public DlgLance(java.awt.Frame parent, boolean modal) {
+    public DlgLance(java.awt.Frame parent, boolean modal, Fachada fachada) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
+        this.fachada = fachada;
+        populaCampos();
     }
-    
+
+    private final Fachada fachada;
+
+    private void populaCampos() {
+        for (Usuario usu : fachada.buscarTodosUsuarios()) {
+            cmbUsuario.addItem(usu);
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -39,8 +51,6 @@ public class DlgLance extends javax.swing.JDialog {
         btnCancelarLance = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         cmbUsuario = new javax.swing.JComboBox();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Novo Lance");
 

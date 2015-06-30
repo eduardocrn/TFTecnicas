@@ -140,6 +140,12 @@ public class DlgLeilao extends javax.swing.JDialog {
             }
         });
 
+        cmbUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbUsuarioActionPerformed(evt);
+            }
+        });
+
         jLabel14.setText("Usuário:");
 
         jLabel15.setText("Hora Inicio:");
@@ -339,6 +345,10 @@ public class DlgLeilao extends javax.swing.JDialog {
             txtDescricaoCompleta.setText("");
         }
     }//GEN-LAST:event_btnAddBemActionPerformed
+
+    private void cmbUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbUsuarioActionPerformed
 
     public void txtDescricaoBreveActionPerformed(java.awt.event.ActionEvent evt) {
         //TODO

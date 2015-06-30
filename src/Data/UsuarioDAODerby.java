@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package Data;
-import Business.UsuarioDAO;
+import DAO.UsuarioDAO;
 import Domain.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

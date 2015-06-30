@@ -11,6 +11,8 @@ import Data.DAOException;
 import Domain.*;
 import java.math.BigDecimal;
 import java.sql.Time;
+import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -48,9 +50,13 @@ public class Fachada {
         }
     }
     
-    public List<Usuario> buscarTodosUsuarios() throws DAOException {
-        List<Usuario> lista ;
-        lista = cadastroUsuario.buscarTodos();
+    public List<Usuario> buscarTodosUsuarios(){
+        List<Usuario> lista = new ArrayList<Usuario>();
+        try{
+            lista = cadastroUsuario.buscarTodos();
+        }catch(DAOException e){
+            
+        }
         return lista;
     }
 

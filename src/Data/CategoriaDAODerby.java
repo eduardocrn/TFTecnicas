@@ -5,7 +5,7 @@
  */
 package Data;
 
-import Business.CategoriaDAO;
+import DAO.CategoriaDAO;
 import Domain.Categoria;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

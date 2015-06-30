@@ -5,6 +5,7 @@
  */
 package Business;
 
+import DAO.CategoriaDAO;
 import Data.CategoriaDAODerby;
 import Data.CategoriaException;
 import Data.DAOException;

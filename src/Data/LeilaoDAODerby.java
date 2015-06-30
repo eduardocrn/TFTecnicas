@@ -5,8 +5,8 @@
  */
 package Data;
 
-import Business.LeilaoDAO;
-import Business.UsuarioDAO;
+import DAO.LeilaoDAO;
+import DAO.UsuarioDAO;
 import Domain.FormaLance;
 import Domain.Leilao;
 import Domain.Natureza;

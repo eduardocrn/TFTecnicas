@@ -5,6 +5,7 @@
  */
 package Business;
 
+import DAO.LeilaoDAO;
 import Data.DAOException;
 import Data.LeilaoDAODerby;
 import Domain.Leilao;

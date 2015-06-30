@@ -5,6 +5,7 @@
  */
 package Business;
 
+import DAO.UsuarioDAO;
 import Data.CpfCnpjException;
 import Data.DAOException;
 import Data.UsuarioDAODerby;

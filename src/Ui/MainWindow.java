@@ -50,7 +50,6 @@ public class MainWindow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1024, 768));
-        setResizable(false);
 
         btnNovoLeilao.setText("Novo Leilão");
         btnNovoLeilao.addActionListener(new java.awt.event.ActionListener() {
@@ -217,7 +216,7 @@ public class MainWindow extends javax.swing.JFrame {
     }
     
     private void btnNovoLanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoLanceActionPerformed
-        DlgLance dlgLance = new DlgLance(this, true);
+        DlgLance dlgLance = new DlgLance(this, true, fachada);
         dlgLance.setVisible(true);
     }//GEN-LAST:event_btnNovoLanceActionPerformed
 
