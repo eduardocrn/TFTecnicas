@@ -27,6 +27,7 @@ public class DlgUsuario extends javax.swing.JDialog {
      public DlgUsuario(java.awt.Frame parent, boolean modal, Fachada fachada) {
         super(parent, modal);
         initComponents();  
+        this.setLocationRelativeTo(null);
         this.fachada = fachada;
     }
 
@@ -52,7 +53,7 @@ public class DlgUsuario extends javax.swing.JDialog {
 
         jLabel2.setText("jLabel2");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setText("Cadastrar Usuário");
 

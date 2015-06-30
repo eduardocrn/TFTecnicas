@@ -8,8 +8,6 @@ package Ui;
 import Business.Fachada;
 import Business.Validadores.ValidadorCategoria;
 import Data.CategoriaException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -26,7 +24,8 @@ public class DlgCategoria extends javax.swing.JDialog {
     public DlgCategoria(java.awt.Frame parent, boolean modal, Fachada fachada) {
         super(parent, modal);
         this.fachada = fachada;
-        initComponents();  
+        initComponents();
+        this.setLocationRelativeTo(null);
     }
     
     /**
@@ -43,6 +42,8 @@ public class DlgCategoria extends javax.swing.JDialog {
         txtCategoria = new javax.swing.JTextField();
         btnSalvarCategoria = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+
+        setResizable(false);
 
         jLabel1.setText("Cadastrar Categoria");
 

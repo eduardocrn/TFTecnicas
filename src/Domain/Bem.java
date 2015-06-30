@@ -10,14 +10,14 @@ public class Bem {
     private String descricaoBreve;
     private String descricaoCompleta;
     private Categoria categoria;
-    private Leilao leilao;
+    private int leilao_id;
     
-    public Bem(int idBem, String DescricaoBreve, String descricaoCompleta, Categoria categoria, Leilao leilao) {
+    public Bem(int idBem, String DescricaoBreve, String descricaoCompleta, Categoria categoria, int leilao_id) {
         this.idBem = idBem;
         this.descricaoBreve = DescricaoBreve;
         this.descricaoCompleta = descricaoCompleta;
         this.categoria = categoria;
-        this.leilao = leilao;
+        this.leilao_id = leilao_id;
     }
 
     public String getDescricaoBreve() {
@@ -48,8 +48,12 @@ public class Bem {
         return idBem;
     }
 
-    public Leilao getLeilao() {
-        return leilao;
+    public int getLeilao_id() {
+        return leilao_id;
+    }
+    
+    public String toString() {
+        return descricaoBreve + " " + categoria.getNomeCategoria();
     }
     
 }

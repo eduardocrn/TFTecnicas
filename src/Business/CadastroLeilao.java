@@ -8,6 +8,7 @@ package Business;
 import Data.DAOException;
 import Data.LeilaoDAODerby;
 import Domain.Leilao;
+import java.util.List;
 
 /**
  *
@@ -23,5 +24,9 @@ public class CadastroLeilao {
     
     public boolean criarLeilao(Leilao leilao) throws DAOException {
         return bd.criarLeilao(leilao);
+    }
+    
+    public List<Leilao> buscarTodos() throws DAOException {
+        return bd.buscarTodos();
     }
 }

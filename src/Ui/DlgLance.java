@@ -16,7 +16,8 @@ public class DlgLance extends javax.swing.JDialog {
      */
      public DlgLance(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initComponents();  
+        initComponents();
+        this.setLocationRelativeTo(null);
     }
     
 

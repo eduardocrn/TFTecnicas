@@ -6,28 +6,40 @@
 package Ui;
 
 import Business.Fachada;
+import Business.Validadores.ValidadorBem;
 import Data.DAOException;
+import Domain.Bem;
 import Domain.Categoria;
 import Domain.FormaLance;
 import Domain.Natureza;
 import Domain.Usuario;
-import java.awt.Component;
+import java.util.ArrayList;
 import java.util.List;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import javax.swing.ListModel;
 
 /**
  *
  * @author Eduardo
  */
 public class DlgLeilao extends javax.swing.JDialog {
-    private Fachada fachada;
+    private final Fachada fachada;
+    private List<Bem> listaBens;
+    private DefaultListModel modelBem = new DefaultListModel();
     /**
      * Creates new form DlgLeilao
+     * @param parent
+     * @param modal
+     * @param fachada
      */
      public DlgLeilao(java.awt.Frame parent, boolean modal, Fachada fachada) {
         super(parent, modal);
         this.fachada = fachada;
         initComponents();
+        this.setLocationRelativeTo(null);
         populaCampos();
+        listaBens = new ArrayList<Bem>();
     }
 
     /**
@@ -42,15 +54,14 @@ public class DlgLeilao extends javax.swing.JDialog {
         jLabel10 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txtHoraInicio = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         txtDataInicio = new javax.swing.JTextField();
-        jSpinner1 = new javax.swing.JSpinner();
-        txtHoraFim = new javax.swing.JSpinner();
+        spHoraInicio = new javax.swing.JSpinner();
+        spHoraFim = new javax.swing.JSpinner();
         cmbForma = new javax.swing.JComboBox();
         txtDataFim = new javax.swing.JTextField();
         txtValorLote = new javax.swing.JTextField();
@@ -64,7 +75,7 @@ public class DlgLeilao extends javax.swing.JDialog {
         jLabel12 = new javax.swing.JLabel();
         btnAddBem = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        listBens = new javax.swing.JList();
+        lstBens = new javax.swing.JList();
         jLabel13 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtDescricaoCompleta = new javax.swing.JTextArea();
@@ -72,6 +83,7 @@ public class DlgLeilao extends javax.swing.JDialog {
         btnCancelaLeilao = new javax.swing.JButton();
         cmbUsuario = new javax.swing.JComboBox();
         jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
 
         jLabel10.setText("Descrição Completa:");
 
@@ -80,8 +92,6 @@ public class DlgLeilao extends javax.swing.JDialog {
         jLabel1.setText("Cadastrar Leilao");
 
         jLabel2.setText("DataInicio:");
-
-        txtHoraInicio.setText("Hora Inicio:");
 
         jLabel4.setText("Data Fim:");
 
@@ -99,23 +109,16 @@ public class DlgLeilao extends javax.swing.JDialog {
 
         jLabel11.setText("Categoria:");
 
-        txtDescricaoBreve.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDescricaoBreveActionPerformed(evt);
-            }
-        });
-
-        cmbCategoria.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbCategoriaActionPerformed(evt);
-            }
-        });
-
         jLabel12.setText("Descrição Completa:");
 
         btnAddBem.setText("Adicionar Bem");
+        btnAddBem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddBemActionPerformed(evt);
+            }
+        });
 
-        jScrollPane1.setViewportView(listBens);
+        jScrollPane1.setViewportView(lstBens);
 
         jLabel13.setText("Bens Adicionados:");
 
@@ -138,6 +141,8 @@ public class DlgLeilao extends javax.swing.JDialog {
         });
 
         jLabel14.setText("Usuário:");
+
+        jLabel15.setText("Hora Inicio:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -162,16 +167,13 @@ public class DlgLeilao extends javax.swing.JDialog {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addComponent(jLabel9)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtDescricaoBreve, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jLabel12)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(41, 41, 41)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel9))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDescricaoBreve, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(39, 39, 39)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel13)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE))
@@ -204,22 +206,22 @@ public class DlgLeilao extends javax.swing.JDialog {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(txtDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(171, 171, 171)
+                        .addGap(174, 174, 174)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel8)
-                            .addComponent(txtHoraInicio)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel14))
+                            .addComponent(jLabel14)
+                            .addComponent(jLabel15))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtValorLote)
-                            .addComponent(txtHoraFim)
-                            .addComponent(jSpinner1, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                            .addComponent(spHoraFim)
+                            .addComponent(spHoraInicio, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
                             .addComponent(cmbUsuario, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(365, 365, 365)
                         .addComponent(jLabel1)))
-                .addContainerGap())
+                .addContainerGap(184, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -246,12 +248,12 @@ public class DlgLeilao extends javax.swing.JDialog {
                                 .addComponent(cmbNatureza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtHoraInicio)
-                            .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(spHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel15))
                         .addGap(31, 31, 31)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(txtHoraFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(spHoraFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(50, 50, 50)))
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -266,8 +268,9 @@ public class DlgLeilao extends javax.swing.JDialog {
                 .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
                         .addComponent(jLabel9)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel12)
                         .addGap(98, 98, 98)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -306,28 +309,45 @@ public class DlgLeilao extends javax.swing.JDialog {
             cmbNatureza.addItem(Natureza.DEMANDA);
             cmbForma.addItem(FormaLance.ABERTO);
             cmbForma.addItem(FormaLance.FECHADO);
+            
+            lstBens.setModel(modelBem);
         }catch(DAOException e) {
             
         }
         
     }
     
-    private void txtDescricaoBreveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescricaoBreveActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDescricaoBreveActionPerformed
-
-    private void cmbCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCategoriaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmbCategoriaActionPerformed
-
     private void btnSalvarLeilaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarLeilaoActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnSalvarLeilaoActionPerformed
 
     private void btnCancelaLeilaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelaLeilaoActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelaLeilaoActionPerformed
 
+    private void btnAddBemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddBemActionPerformed
+
+        if(!ValidadorBem.getInstance().validaDescBreve(txtDescricaoBreve.getText()))
+            JOptionPane.showMessageDialog(null, "Descrição breve obrigatória(5 <= descrição breve <= 50).");
+        else if(!ValidadorBem.getInstance().validaDescCompleta(txtDescricaoCompleta.getText()))
+            JOptionPane.showMessageDialog(null, "Descrição completa obrigatória(5 <= descrição completa <= 255).");
+        else {
+            Bem bem = new Bem(0,txtDescricaoBreve.getText(), txtDescricaoCompleta.getText(),(Categoria) cmbCategoria.getSelectedItem(),0);
+            listaBens.add(bem);
+            modelBem.add(0, bem);
+            txtDescricaoBreve.setText("");
+            txtDescricaoCompleta.setText("");
+        }
+    }//GEN-LAST:event_btnAddBemActionPerformed
+
+    public void txtDescricaoBreveActionPerformed(java.awt.event.ActionEvent evt) {
+        //TODO
+    }
+    
+    public void cmbCategoriaActionPerformed(java.awt.event.ActionEvent evt) {
+        //TODO
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddBem;
     private javax.swing.JButton btnCancelaLeilao;
@@ -342,6 +362,7 @@ public class DlgLeilao extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -353,14 +374,13 @@ public class DlgLeilao extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JList listBens;
+    private javax.swing.JList lstBens;
+    private javax.swing.JSpinner spHoraFim;
+    private javax.swing.JSpinner spHoraInicio;
     private javax.swing.JTextField txtDataFim;
     private javax.swing.JTextField txtDataInicio;
     private javax.swing.JTextField txtDescricaoBreve;
     private javax.swing.JTextArea txtDescricaoCompleta;
-    private javax.swing.JSpinner txtHoraFim;
-    private javax.swing.JLabel txtHoraInicio;
     private javax.swing.JTextField txtValorLote;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,6 +6,10 @@
 package Ui;
 
 import Business.Fachada;
+import Data.DAOException;
+import Domain.Leilao;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,6 +24,8 @@ public class MainWindow extends javax.swing.JFrame {
     public MainWindow() {
         initComponents();
         fachada = new Fachada();
+        this.setLocationRelativeTo(null);
+        populaCampos();
     }
 
     /**
@@ -44,6 +50,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1024, 768));
+        setResizable(false);
 
         btnNovoLeilao.setText("Novo Leilão");
         btnNovoLeilao.addActionListener(new java.awt.event.ActionListener() {
@@ -68,7 +75,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         tableLeilao.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "Código Leilão", "Data inicio", "Hora inicio", "Data Fim", "Hora Fim", "Natureza", "Forma", "Valor", "Responsável"
@@ -185,7 +192,30 @@ public class MainWindow extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    void populaCampos() {
+        try {
+            List<Leilao> lista = fachada.buscarTodosLeiloes();
+            DefaultTableModel model = (DefaultTableModel) tableLeilao.getModel();
+            for (Leilao leilao : lista) {
+                model.addRow(new Object[]{
+                    leilao.getIdLeilao(), 
+                    leilao.getDataInicio(),
+                    leilao.getHoraInicio(),
+                    leilao.getDataFim(),
+                    leilao.getHoraFim(),
+                    leilao.getNatureza(),
+                    leilao.getFormaLance(),
+                    leilao.getValorLote(),
+                    leilao.getUsuario().getNome()});    
+            }
+            
+        }catch(DAOException ex) {
+            
+        }
+            
+    }
+    
     private void btnNovoLanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoLanceActionPerformed
         DlgLance dlgLance = new DlgLance(this, true);
         dlgLance.setVisible(true);

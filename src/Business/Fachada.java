@@ -8,8 +8,10 @@ package Business;
 import Data.CategoriaException;
 import Data.CpfCnpjException;
 import Data.DAOException;
-import Domain.Categoria;
-import Domain.Usuario;
+import Domain.*;
+import java.math.BigDecimal;
+import java.sql.Time;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,8 +39,13 @@ public class Fachada {
         }
     }
     
-    public boolean novoLeilao(String nome, String email, String cpfCnpj) throws LeilaoException {
-        throw new LeilaoException("");
+    public boolean novoLeilao(Date dataInicio, Time horaInicio, Date dataFim, Time horaFim, Natureza natureza, FormaLance formaLance, BigDecimal valorLote, Usuario usuario) throws LeilaoException {
+        Leilao leilao = new Leilao(0, dataInicio, dataFim, horaInicio, horaFim, natureza, formaLance, valorLote, usuario);
+        try {
+            return cadastroLeilao.criarLeilao(leilao);
+        }catch(DAOException e) {
+            throw new LeilaoException(e.getMessage());
+        }
     }
     
     public List<Usuario> buscarTodosUsuarios() throws DAOException {
@@ -58,6 +65,10 @@ public class Fachada {
 
     public List<Categoria> buscarTodaCategorias() throws DAOException {
         return cadastroCategoria.buscarCategorias();
+    }
+    
+    public List<Leilao> buscarTodosLeiloes() throws DAOException {
+        return cadastroLeilao.buscarTodos();
     }
     
 }
