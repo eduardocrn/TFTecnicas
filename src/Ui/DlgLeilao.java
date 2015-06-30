@@ -6,14 +6,19 @@
 package Ui;
 
 import Business.Fachada;
+import Business.LeilaoException;
 import Business.Validadores.ValidadorBem;
+import Business.Validadores.ValidadorLeilao;
 import Data.DAOException;
 import Domain.Bem;
 import Domain.Categoria;
 import Domain.FormaLance;
 import Domain.Natureza;
 import Domain.Usuario;
+import java.math.BigDecimal;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -60,8 +65,6 @@ public class DlgLeilao extends javax.swing.JDialog {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         txtDataInicio = new javax.swing.JTextField();
-        spHoraInicio = new javax.swing.JSpinner();
-        spHoraFim = new javax.swing.JSpinner();
         cmbForma = new javax.swing.JComboBox();
         txtDataFim = new javax.swing.JTextField();
         txtValorLote = new javax.swing.JTextField();
@@ -84,6 +87,8 @@ public class DlgLeilao extends javax.swing.JDialog {
         cmbUsuario = new javax.swing.JComboBox();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
+        txtHoraInicio = new javax.swing.JTextField();
+        txtHoraFim = new javax.swing.JTextField();
 
         jLabel10.setText("Descrição Completa:");
 
@@ -221,9 +226,9 @@ public class DlgLeilao extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtValorLote)
-                            .addComponent(spHoraFim)
-                            .addComponent(spHoraInicio, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
-                            .addComponent(cmbUsuario, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(cmbUsuario, 0, 108, Short.MAX_VALUE)
+                            .addComponent(txtHoraFim)
+                            .addComponent(txtHoraInicio)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(365, 365, 365)
                         .addComponent(jLabel1)))
@@ -254,12 +259,12 @@ public class DlgLeilao extends javax.swing.JDialog {
                                 .addComponent(cmbNatureza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(spHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel15))
+                            .addComponent(jLabel15)
+                            .addComponent(txtHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(31, 31, 31)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(spHoraFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtHoraFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(50, 50, 50)))
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -324,7 +329,44 @@ public class DlgLeilao extends javax.swing.JDialog {
     }
     
     private void btnSalvarLeilaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarLeilaoActionPerformed
+        Calendar dataInicio = Calendar.getInstance();
+        Calendar dataFim = Calendar.getInstance();
         
+        String[] dtIniStr = txtDataInicio.getText().split("/");
+        String[] dtFimStr = txtDataFim.getText().split("/");
+        
+        String[] hrIniStr = txtHoraInicio.getText().split(":");
+        String[] hrFimStr = txtHoraFim.getText().split(":");
+
+        if (!ValidadorLeilao.getInstance().validaDatas(dtIniStr, dtFimStr)) {
+            JOptionPane.showMessageDialog(null, "Data(s) incorreta(s)(dd/mm/yyyy).");
+        } else if (!ValidadorLeilao.getInstance().validaHoras(hrIniStr, hrFimStr)) {
+            JOptionPane.showMessageDialog(null, "Hora(s) incorreta(s)(hh:mm).");
+        } else if(!ValidadorLeilao.getInstance().validaValorLote(txtValorLote.getText())) {
+            JOptionPane.showMessageDialog(null, "Valor lote incorreto.");
+        } else {
+            try {
+                dataFim.set(Integer.valueOf(dtFimStr[2]), Integer.valueOf(dtFimStr[1]), Integer.valueOf(dtFimStr[0]));
+                dataInicio.set(Integer.valueOf(dtIniStr[2]), Integer.valueOf(dtIniStr[1]), Integer.valueOf(dtIniStr[0]));
+                Time horaInicio = new Time(Integer.valueOf(hrIniStr[0]), Integer.valueOf(hrIniStr[1]), 0);
+                Time horaFim = new Time(Integer.valueOf(hrFimStr[0]), Integer.valueOf(hrFimStr[1]), 0);
+                
+                fachada.novoLeilao(
+                        dataInicio.getTime(), 
+                        horaInicio, 
+                        dataFim.getTime(), 
+                        horaFim, 
+                        (Natureza) cmbNatureza.getSelectedItem(),
+                        (FormaLance) cmbForma.getSelectedItem(), 
+                        new BigDecimal(txtValorLote.getText()), 
+                        (Usuario) cmbUsuario.getSelectedItem(),
+                        listaBens);
+                this.dispose();
+                JOptionPane.showMessageDialog(null, "Criado com sucesso.");
+            } catch (LeilaoException ex) {
+                JOptionPane.showMessageDialog(null, "Erro: " + ex.getMessage());
+            }
+        }
     }//GEN-LAST:event_btnSalvarLeilaoActionPerformed
 
     private void btnCancelaLeilaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelaLeilaoActionPerformed
@@ -385,12 +427,12 @@ public class DlgLeilao extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JList lstBens;
-    private javax.swing.JSpinner spHoraFim;
-    private javax.swing.JSpinner spHoraInicio;
     private javax.swing.JTextField txtDataFim;
     private javax.swing.JTextField txtDataInicio;
     private javax.swing.JTextField txtDescricaoBreve;
     private javax.swing.JTextArea txtDescricaoCompleta;
+    private javax.swing.JTextField txtHoraFim;
+    private javax.swing.JTextField txtHoraInicio;
     private javax.swing.JTextField txtValorLote;
     // End of variables declaration//GEN-END:variables
 }

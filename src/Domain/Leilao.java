@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 public class Leilao {
 
@@ -21,9 +22,10 @@ public class Leilao {
     private FormaLance formaLance;
     private BigDecimal valorLote;
     private Usuario usuario;
+    private List<Bem> bens;
 
     public Leilao(int idLeilao, Date dataInicio, Date dataFim, Time horaInicio,
-            Time horaFim, Natureza natureza, FormaLance formaLance, BigDecimal valorLote, Usuario usuario) {
+            Time horaFim, Natureza natureza, FormaLance formaLance, BigDecimal valorLote, Usuario usuario, List<Bem> bens) {
         this.dataFim = dataFim;
         this.dataInicio = dataInicio;
         this.formaLance = formaLance;
@@ -33,6 +35,7 @@ public class Leilao {
         this.natureza = natureza;
         this.usuario = usuario;
         this.valorLote = valorLote;
+        this.bens = bens;
     }
 
     public int getIdLeilao() {

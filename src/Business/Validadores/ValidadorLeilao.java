@@ -26,16 +26,32 @@ public class ValidadorLeilao {
         }
         return (vc);
     }
-    
-    public boolean validaHoras(Time horaInicio, Time horaFim){
+    public boolean validaHoras(String[] horaInicio, String[] horaFim){
+        if(horaInicio.length < 2 || horaInicio.length < 2)
+            return false;
+        if(Integer.valueOf(horaInicio[0]) > 23 || Integer.valueOf(horaFim[0]) > 23)
+            return false;
         return true;
     }
     
-    public boolean validaDatas(Data dataInicio, Data dataFim) {
+    public boolean validaDatas(String[] dataInicio, String[] dataFim) {
+        if(dataInicio.length < 3 || dataFim.length < 3) // dd/mm/yyyy
+            return false;
+        if(dataInicio[2].length() < 4 || dataFim[2].length() < 4) //ano
+            return false;
+        if(Integer.valueOf(dataInicio[1]) > 12 || Integer.valueOf(dataFim[1]) > 12 )
+            return false;
         return true;
     }
     
-    public boolean validaValorLote(BigDecimal valor) {
+    public boolean validaValorLote(String valor) {
+        try{
+            BigDecimal decimal = new BigDecimal(valor);
+            if(decimal.intValue() < 0)
+                return false;
+        }catch(Exception e){
+            return false;
+        }
         return true;
     }
     

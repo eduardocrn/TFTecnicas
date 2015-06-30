@@ -5,8 +5,11 @@
  */
 package Data;
 
+import DAO.LanceDAO;
+import DAO.LanceDAODerby;
 import DAO.LeilaoDAO;
 import DAO.UsuarioDAO;
+import Domain.Bem;
 import Domain.FormaLance;
 import Domain.Leilao;
 import Domain.Natureza;
@@ -25,18 +28,17 @@ public class LeilaoDAODerby implements LeilaoDAO {
     @Override
     public boolean criarLeilao(Leilao leilao) throws DAOException {
         int resultado;
-        String sql = "INSERT INTO Leiloes (idLeilao, DataInicio, HoraInicio, DataFim, HoraFim, Natureza, FormaLance, ValorLote, Usuario_id) VALUES (?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO Leiloes (DataInicio, HoraInicio, DataFim, HoraFim, Natureza, FormaLance, ValorLote, Usuario_id) VALUES (?,?,?,?,?,?,?,?)";
         try (Connection conexao = InicializadorBd.conectarBd()) {
             try (PreparedStatement comando = conexao.prepareStatement(sql)) {
-                comando.setInt(1, leilao.getIdLeilao());
-                comando.setDate(2, (java.sql.Date) leilao.getDataInicio());
-                comando.setTime(3, leilao.getHoraInicio());
-                comando.setDate(4, (java.sql.Date) leilao.getDataFim());
-                comando.setTime(5, leilao.getHoraFim());
-                comando.setInt(6, leilao.getNatureza().valor);
-                comando.setInt(7, leilao.getFormaLance().valor);
-                comando.setBigDecimal(8, leilao.getValorLote());
-                comando.setInt(9, leilao.getUsuario().getIdUsuario());
+                comando.setDate(1, (java.sql.Date) leilao.getDataInicio());
+                comando.setTime(2, leilao.getHoraInicio());
+                comando.setDate(3, (java.sql.Date) leilao.getDataFim());
+                comando.setTime(4, leilao.getHoraFim());
+                comando.setInt(5, leilao.getNatureza().valor);
+                comando.setInt(6, leilao.getFormaLance().valor);
+                comando.setBigDecimal(7, leilao.getValorLote());
+                comando.setInt(8, leilao.getUsuario().getIdUsuario());
                 resultado = comando.executeUpdate();
             }
         } catch (Exception ex) {
@@ -98,7 +100,8 @@ public class LeilaoDAODerby implements LeilaoDAO {
                                 natureza,
                                 forma,
                                 resultado.getBigDecimal("ValorLote"),
-                                usuarioDb.buscarUsuarioId(resultado.getInt("Usuario_id")));
+                                usuarioDb.buscarUsuarioId(resultado.getInt("Usuario_id")),
+                                new ArrayList<Bem>());
                     }
                     return leilao;
                 }
@@ -132,8 +135,10 @@ public class LeilaoDAODerby implements LeilaoDAO {
                                 natureza,
                                 forma,
                                 resultado.getBigDecimal("ValorLote"),
-                                usuarioDb.buscarUsuarioId(resultado.getInt("Usuario_id")))
+                                usuarioDb.buscarUsuarioId(resultado.getInt("Usuario_id")),
+                                new ArrayList<Bem>())
                         );
+                        
                                 
                     }
                     return lista;

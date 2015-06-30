@@ -43,8 +43,8 @@ public class Fachada {
         }
     }
 
-    public boolean novoLeilao(Date dataInicio, Time horaInicio, Date dataFim, Time horaFim, Natureza natureza, FormaLance formaLance, BigDecimal valorLote, Usuario usuario) throws LeilaoException {
-        Leilao leilao = new Leilao(0, dataInicio, dataFim, horaInicio, horaFim, natureza, formaLance, valorLote, usuario);
+    public boolean novoLeilao(Date dataInicio, Time horaInicio, Date dataFim, Time horaFim, Natureza natureza, FormaLance formaLance, BigDecimal valorLote, Usuario usuario, List<Bem> bens) throws LeilaoException {
+        Leilao leilao = new Leilao(0, dataInicio, dataFim, horaInicio, horaFim, natureza, formaLance, valorLote, usuario, bens);
         try {
             return cadastroLeilao.criarLeilao(leilao);
         } catch (DAOException e) {
