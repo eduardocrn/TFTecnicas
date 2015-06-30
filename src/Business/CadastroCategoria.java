@@ -11,6 +11,8 @@ import Data.CategoriaException;
 import Data.DAOException;
 import Domain.Categoria;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -24,8 +26,14 @@ class CadastroCategoria {
             bd = new CategoriaDAODerby();
     }
     
-    public boolean adicinaCategoria(Categoria categoria) throws DAOException, CategoriaException {
-        return bd.criarCategoria(categoria);
+    public boolean adicinaCategoria(Categoria categoria) throws BusinessException{
+        try {
+            return bd.criarCategoria(categoria);
+        } catch (DAOException ex) {
+            throw new BusinessException(ex);
+        } catch (CategoriaException ex) {
+           throw new BusinessException(ex);
+        }
     }
     
     public List<Categoria> buscarCategorias() throws DAOException {

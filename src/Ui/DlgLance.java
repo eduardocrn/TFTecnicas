@@ -5,8 +5,17 @@
  */
 package Ui;
 
+import Business.BusinessException;
 import Business.Fachada;
+import Business.Validadores.ValidaLance;
+import Domain.Lance;
+import Domain.Leilao;
 import Domain.Usuario;
+import java.math.BigDecimal;
+import java.sql.Time;
+import java.util.Calendar;
+import java.util.Date;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,15 +31,25 @@ public class DlgLance extends javax.swing.JDialog {
         initComponents();
         this.setLocationRelativeTo(null);
         this.fachada = fachada;
-        populaCampos();
+        try {
+            populaCampos();
+        } catch (BusinessException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }
 
     private final Fachada fachada;
 
-    private void populaCampos() {
+    private void populaCampos() throws BusinessException {
+
         for (Usuario usu : fachada.buscarTodosUsuarios()) {
             cmbUsuario.addItem(usu);
         }
+
+        for (Leilao l : fachada.buscarTodosLeiloes()) {
+            cmbCodigoLeilao.addItem(l);
+        }
+
     }
 
     /**
@@ -56,8 +75,6 @@ public class DlgLance extends javax.swing.JDialog {
 
         jLabel2.setText("Código Leilão:");
 
-        cmbCodigoLeilao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         txtValorLance.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtValorLanceActionPerformed(evt);
@@ -67,6 +84,11 @@ public class DlgLance extends javax.swing.JDialog {
         jLabel3.setText("Valor Lance:");
 
         btnSalvarLance.setText("Salvar");
+        btnSalvarLance.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarLanceActionPerformed(evt);
+            }
+        });
 
         btnCancelarLance.setText("Cancelar");
         btnCancelarLance.addActionListener(new java.awt.event.ActionListener() {
@@ -77,7 +99,6 @@ public class DlgLance extends javax.swing.JDialog {
 
         jLabel4.setText("Usuário:");
 
-        cmbUsuario.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbUsuarioActionPerformed(evt);
@@ -149,6 +170,27 @@ public class DlgLance extends javax.swing.JDialog {
     private void cmbUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUsuarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbUsuarioActionPerformed
+
+    private void btnSalvarLanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarLanceActionPerformed
+        if (!ValidaLance.getInstance().validarValor(new BigDecimal(txtValorLance.getText()))) {
+            JOptionPane.showMessageDialog(null, "Valor passado esta incorreto!");
+        } else {
+
+            Date date = Calendar.getInstance().getTime();
+            Time time = new Time(Calendar.getInstance().getTimeInMillis());
+
+            Lance lance = new Lance(0, date, time, new BigDecimal(txtValorLance.getText()), ((Usuario) cmbUsuario.getSelectedItem()), ((Leilao) cmbCodigoLeilao.getSelectedItem()));
+
+            try {
+                fachada.criarLance(lance);
+                this.dispose();
+                JOptionPane.showMessageDialog(null, "Criado com sucesso.");
+            } catch (BusinessException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        }
+
+    }//GEN-LAST:event_btnSalvarLanceActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelarLance;

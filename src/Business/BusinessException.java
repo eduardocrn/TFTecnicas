@@ -5,6 +5,8 @@
  */
 package Business;
 
+import Data.DAOException;
+
 /**
  *
  * @author 13180373
@@ -13,5 +15,9 @@ public class BusinessException extends Exception {
 
     public BusinessException(String msg) {
         super(msg);
+    }
+
+    BusinessException(Exception ex) {
+        super(ex);
     }
 }

@@ -16,18 +16,24 @@ import java.util.List;
  * @author Eduardo
  */
 public class CadastroLeilao {
+
     private LeilaoDAO bd;
-    
+
     public CadastroLeilao() {
-        if(bd == null) 
+        if (bd == null) {
             bd = new LeilaoDAODerby();
+        }
     }
-    
+
     public boolean criarLeilao(Leilao leilao) throws DAOException {
         return bd.criarLeilao(leilao);
     }
-    
-    public List<Leilao> buscarTodos() throws DAOException {
-        return bd.buscarTodos();
+
+    public List<Leilao> buscarTodos() throws BusinessException {
+        try {
+            return bd.buscarTodos();
+        } catch (DAOException e) {
+            throw new BusinessException(e);
+        }
     }
 }

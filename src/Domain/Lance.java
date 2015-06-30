@@ -7,17 +7,17 @@ package Domain;
 
 import java.math.BigDecimal;
 import java.sql.Time;
-import java.time.LocalDate;
+import java.util.Date;
 
 public class Lance {
     private int idLance;
-    private LocalDate data;
+    private Date data;
     private Time hora;
     private BigDecimal valor;
     private Usuario usuario;
     private Leilao leilao;
     
-    public Lance(int idLance, LocalDate data, Time hora, BigDecimal valor, Usuario usuario, Leilao leilao) {
+    public Lance(int idLance, Date data, Time hora, BigDecimal valor, Usuario usuario, Leilao leilao) {
         this.idLance = idLance;
         this.data = data;
         this.hora = hora;
@@ -30,11 +30,11 @@ public class Lance {
         return idLance;
     }
 
-    public LocalDate getData() {
+    public Date getData() {
         return data;
     }
 
-    public void setData(LocalDate data) {
+    public void setData(Date data) {
         this.data = data;
     }
 

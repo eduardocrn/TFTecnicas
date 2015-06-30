@@ -5,6 +5,7 @@
  */
 package Ui;
 
+import Business.BusinessException;
 import Business.Fachada;
 import Business.Validadores.ValidadorCategoria;
 import Data.CategoriaException;
@@ -126,9 +127,8 @@ public class DlgCategoria extends javax.swing.JDialog {
                 fachada.novaCategoria(txtCategoria.getText());
                 this.dispose();
                 JOptionPane.showMessageDialog(null, "Criado com sucesso.");
-            } catch (CategoriaException ex) {
+            } catch (BusinessException ex) {
                 JOptionPane.showMessageDialog(null,ex.getMessage());
-                //Logger.getLogger(DlgCategoria.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
             

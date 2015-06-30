@@ -5,10 +5,12 @@
  */
 package Ui;
 
+import Business.BusinessException;
 import Business.Fachada;
 import Data.DAOException;
 import Domain.Leilao;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -25,7 +27,28 @@ public class MainWindow extends javax.swing.JFrame {
         initComponents();
         fachada = new Fachada();
         this.setLocationRelativeTo(null);
+        try {
         populaCampos();
+        } catch (BusinessException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+       
+    void populaCampos() throws BusinessException{
+            List<Leilao> lista = fachada.buscarTodosLeiloes();
+            DefaultTableModel model = (DefaultTableModel) tableLeilao.getModel();
+            for (Leilao leilao : lista) {
+                model.addRow(new Object[]{
+                    leilao.getIdLeilao(), 
+                    leilao.getDataInicio(),
+                    leilao.getHoraInicio(),
+                    leilao.getDataFim(),
+                    leilao.getHoraFim(),
+                    leilao.getNatureza(),
+                    leilao.getFormaLance(),
+                    leilao.getValorLote(),
+                    leilao.getUsuario().getNome()});    
+            }            
     }
 
     /**
@@ -191,29 +214,6 @@ public class MainWindow extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
-    void populaCampos() {
-        try {
-            List<Leilao> lista = fachada.buscarTodosLeiloes();
-            DefaultTableModel model = (DefaultTableModel) tableLeilao.getModel();
-            for (Leilao leilao : lista) {
-                model.addRow(new Object[]{
-                    leilao.getIdLeilao(), 
-                    leilao.getDataInicio(),
-                    leilao.getHoraInicio(),
-                    leilao.getDataFim(),
-                    leilao.getHoraFim(),
-                    leilao.getNatureza(),
-                    leilao.getFormaLance(),
-                    leilao.getValorLote(),
-                    leilao.getUsuario().getNome()});    
-            }
-            
-        }catch(DAOException ex) {
-            
-        }
-            
-    }
     
     private void btnNovoLanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoLanceActionPerformed
         DlgLance dlgLance = new DlgLance(this, true, fachada);

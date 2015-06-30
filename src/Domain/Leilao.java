@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.Date;
 
 public class Leilao {
+
     private int idLeilao;
     private Date dataInicio;
     private Date dataFim;
@@ -20,7 +21,7 @@ public class Leilao {
     private FormaLance formaLance;
     private BigDecimal valorLote;
     private Usuario usuario;
-    
+
     public Leilao(int idLeilao, Date dataInicio, Date dataFim, Time horaInicio,
             Time horaFim, Natureza natureza, FormaLance formaLance, BigDecimal valorLote, Usuario usuario) {
         this.dataFim = dataFim;
@@ -69,4 +70,10 @@ public class Leilao {
     public Usuario getUsuario() {
         return usuario;
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(idLeilao);
+    }
+
 }
