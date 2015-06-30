@@ -5,8 +5,7 @@
  */
 package Data;
 
-import DAO.LanceDAO;
-import DAO.LanceDAODerby;
+import DAO.BemDAO;
 import DAO.LeilaoDAO;
 import DAO.UsuarioDAO;
 import Domain.Bem;
@@ -27,13 +26,14 @@ public class LeilaoDAODerby implements LeilaoDAO {
 
     @Override
     public boolean criarLeilao(Leilao leilao) throws DAOException {
+        BemDAO bemDao = new BemDaoDerby();
         int resultado;
         String sql = "INSERT INTO Leiloes (DataInicio, HoraInicio, DataFim, HoraFim, Natureza, FormaLance, ValorLote, Usuario_id) VALUES (?,?,?,?,?,?,?,?)";
         try (Connection conexao = InicializadorBd.conectarBd()) {
             try (PreparedStatement comando = conexao.prepareStatement(sql)) {
-                comando.setDate(1, (java.sql.Date) leilao.getDataInicio());
+                comando.setDate(1, new java.sql.Date(leilao.getDataInicio().getTime()));
                 comando.setTime(2, leilao.getHoraInicio());
-                comando.setDate(3, (java.sql.Date) leilao.getDataFim());
+                comando.setDate(3, new java.sql.Date(leilao.getDataFim().getTime()));
                 comando.setTime(4, leilao.getHoraFim());
                 comando.setInt(5, leilao.getNatureza().valor);
                 comando.setInt(6, leilao.getFormaLance().valor);
@@ -43,6 +43,13 @@ public class LeilaoDAODerby implements LeilaoDAO {
             }
         } catch (Exception ex) {
             throw new DAOException("Falha na inserção. " + ex.getMessage());
+        }
+        try{
+            for (Bem bem : leilao.getBens()) {
+                
+            }
+        }catch(Exception e) {
+            
         }
         if (resultado == 0)
             throw new DAOException("Falha na inserção.");

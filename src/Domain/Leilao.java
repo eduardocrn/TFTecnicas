@@ -73,6 +73,10 @@ public class Leilao {
     public Usuario getUsuario() {
         return usuario;
     }
+    
+    public List<Bem> getBens(){
+        return bens;
+    }
 
     @Override
     public String toString() {
