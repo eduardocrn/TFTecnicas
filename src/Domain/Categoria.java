@@ -26,5 +26,8 @@ public class Categoria {
         this.nomeCategoria = nomeCategoria;
     }
     
-    
+    @Override
+    public String toString(){
+        return nomeCategoria;
+    }
 }

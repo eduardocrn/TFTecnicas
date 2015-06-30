@@ -5,10 +5,11 @@
  */
 package Business;
 
-import Data.CpfCnpjDuplicadoException;
+import Data.CpfCnpjException;
 import Data.DAOException;
 import Data.UsuarioDAODerby;
 import Domain.Usuario;
+import java.util.List;
 
 
 /**
@@ -23,9 +24,13 @@ public class CadastroUsuario {
             bd = new UsuarioDAODerby();
     }
     
-    public boolean adicionaUsuario(Usuario usuario) throws CpfCnpjDuplicadoException, DAOException {
+    public boolean adicionaUsuario(Usuario usuario) throws CpfCnpjException, DAOException {
         return bd.criarUsuario(usuario);
         
+    }
+    
+    public List<Usuario> buscarTodos() throws DAOException {
+        return bd.buscarTodos();
     }
     
 }

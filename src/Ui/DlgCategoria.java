@@ -5,19 +5,27 @@
  */
 package Ui;
 
+import Business.Fachada;
+import Business.Validadores.ValidadorCategoria;
+import Data.CategoriaException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Eduardo
  */
 public class DlgCategoria extends javax.swing.JDialog {
-
+    Fachada fachada;
     /**
      * Creates new form DlgCategoria
      * @param parent
      * @param modal
      */
-    public DlgCategoria(java.awt.Frame parent, boolean modal) {
+    public DlgCategoria(java.awt.Frame parent, boolean modal, Fachada fachada) {
         super(parent, modal);
+        this.fachada = fachada;
         initComponents();  
     }
     
@@ -36,8 +44,6 @@ public class DlgCategoria extends javax.swing.JDialog {
         btnSalvarCategoria = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
         jLabel1.setText("Cadastrar Categoria");
 
         jLabel2.setText("Categoria:");
@@ -49,6 +55,11 @@ public class DlgCategoria extends javax.swing.JDialog {
         });
 
         btnSalvarCategoria.setText("Salvar");
+        btnSalvarCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarCategoriaActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Cancelar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -104,6 +115,23 @@ public class DlgCategoria extends javax.swing.JDialog {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btnSalvarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCategoriaActionPerformed
+        if(!ValidadorCategoria.getInstance().validaNome(txtCategoria.getText())) {
+            JOptionPane.showMessageDialog(null, "Nome inválido(4 < nome <= 50)");
+        }
+        else {
+            try {
+                fachada.novaCategoria(txtCategoria.getText());
+                this.dispose();
+                JOptionPane.showMessageDialog(null, "Criado com sucesso.");
+            } catch (CategoriaException ex) {
+                JOptionPane.showMessageDialog(null,ex.getMessage());
+                //Logger.getLogger(DlgCategoria.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+            
+    }//GEN-LAST:event_btnSalvarCategoriaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSalvarCategoria;

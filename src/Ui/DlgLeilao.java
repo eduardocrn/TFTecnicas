@@ -5,18 +5,29 @@
  */
 package Ui;
 
+import Business.Fachada;
+import Data.DAOException;
+import Domain.Categoria;
+import Domain.FormaLance;
+import Domain.Natureza;
+import Domain.Usuario;
+import java.awt.Component;
+import java.util.List;
+
 /**
  *
  * @author Eduardo
  */
 public class DlgLeilao extends javax.swing.JDialog {
-
+    private Fachada fachada;
     /**
      * Creates new form DlgLeilao
      */
-     public DlgLeilao(java.awt.Frame parent, boolean modal) {
+     public DlgLeilao(java.awt.Frame parent, boolean modal, Fachada fachada) {
         super(parent, modal);
-        initComponents();  
+        this.fachada = fachada;
+        initComponents();
+        populaCampos();
     }
 
     /**
@@ -59,10 +70,11 @@ public class DlgLeilao extends javax.swing.JDialog {
         txtDescricaoCompleta = new javax.swing.JTextArea();
         btnSalvarLeilao = new javax.swing.JButton();
         btnCancelaLeilao = new javax.swing.JButton();
+        cmbUsuario = new javax.swing.JComboBox();
+        jLabel14 = new javax.swing.JLabel();
 
         jLabel10.setText("Descrição Completa:");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         jLabel1.setText("Cadastrar Leilao");
@@ -81,10 +93,6 @@ public class DlgLeilao extends javax.swing.JDialog {
 
         jLabel8.setText("Valor Lote:");
 
-        cmbForma.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        cmbNatureza.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel3.setText("Adicionar Bens");
 
         jLabel9.setText("Descrição breve:");
@@ -97,7 +105,6 @@ public class DlgLeilao extends javax.swing.JDialog {
             }
         });
 
-        cmbCategoria.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbCategoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbCategoriaActionPerformed(evt);
@@ -108,11 +115,6 @@ public class DlgLeilao extends javax.swing.JDialog {
 
         btnAddBem.setText("Adicionar Bem");
 
-        listBens.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(listBens);
 
         jLabel13.setText("Bens Adicionados:");
@@ -134,6 +136,8 @@ public class DlgLeilao extends javax.swing.JDialog {
                 btnCancelaLeilaoActionPerformed(evt);
             }
         });
+
+        jLabel14.setText("Usuário:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -204,12 +208,14 @@ public class DlgLeilao extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel8)
                             .addComponent(txtHoraInicio)
-                            .addComponent(jLabel5))
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel14))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtValorLote)
                             .addComponent(txtHoraFim)
-                            .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jSpinner1, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                            .addComponent(cmbUsuario, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(365, 365, 365)
                         .addComponent(jLabel1)))
@@ -250,7 +256,9 @@ public class DlgLeilao extends javax.swing.JDialog {
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(cmbForma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbForma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel14))
                 .addGap(33, 33, 33)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -278,20 +286,32 @@ public class DlgLeilao extends javax.swing.JDialog {
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnAddBem)
-                        .addGap(0, 23, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnCancelaLeilao)
-                            .addComponent(btnSalvarLeilao))))
-                .addContainerGap())
+                    .addComponent(btnAddBem)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnCancelaLeilao)
+                        .addComponent(btnSalvarLeilao)))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void populaCampos(){
+        try{
+            for (Usuario usu : fachada.buscarTodosUsuarios())
+                cmbUsuario.addItem(usu);
+            for (Categoria cat : fachada.buscarTodaCategorias())
+                cmbCategoria.addItem(cat);
+            cmbNatureza.addItem(Natureza.OFERTA);
+            cmbNatureza.addItem(Natureza.DEMANDA);
+            cmbForma.addItem(FormaLance.ABERTO);
+            cmbForma.addItem(FormaLance.FECHADO);
+        }catch(DAOException e) {
+            
+        }
+        
+    }
+    
     private void txtDescricaoBreveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescricaoBreveActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDescricaoBreveActionPerformed
@@ -315,11 +335,13 @@ public class DlgLeilao extends javax.swing.JDialog {
     private javax.swing.JComboBox cmbCategoria;
     private javax.swing.JComboBox cmbForma;
     private javax.swing.JComboBox cmbNatureza;
+    private javax.swing.JComboBox cmbUsuario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

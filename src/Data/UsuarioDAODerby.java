@@ -16,10 +16,10 @@ import java.util.List;
 public class UsuarioDAODerby implements UsuarioDAO{
 
     @Override
-    public boolean criarUsuario(Usuario usuario) throws CpfCnpjDuplicadoException, DAOException{
+    public boolean criarUsuario(Usuario usuario) throws CpfCnpjException, DAOException{
         int resultado;
         if (buscarUsuarioCpfCnpj(usuario.getCpfCnpj()) != null) {
-            throw new CpfCnpjDuplicadoException("CPF/CNPJ já existe no banco de dados : " + usuario.getCpfCnpj());
+            throw new CpfCnpjException("CPF/CNPJ já existe no banco de dados : " + usuario.getCpfCnpj());
         }
         String sql = "INSERT INTO Usuarios (CpfCnpj, Nome, Email) VALUES (?,?,?)";
         try (Connection conexao = InicializadorBd.conectarBd()) {

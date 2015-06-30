@@ -6,7 +6,8 @@
 package Ui;
 
 import Business.LeilaoException;
-import Business.LeilaoFachada;
+import Business.Fachada;
+import Business.Validadores.ValidadorUsuario;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -16,14 +17,14 @@ import javax.swing.JOptionPane;
  * @author Eduardo
  */
 public class DlgUsuario extends javax.swing.JDialog {
-    private final LeilaoFachada fachada;
+    private final Fachada fachada;
     /**
      * Creates new form DlgUsuario
      * @param parent
      * @param modal
      * @param fachada
      */
-     public DlgUsuario(java.awt.Frame parent, boolean modal, LeilaoFachada fachada) {
+     public DlgUsuario(java.awt.Frame parent, boolean modal, Fachada fachada) {
         super(parent, modal);
         initComponents();  
         this.fachada = fachada;
@@ -143,9 +144,17 @@ public class DlgUsuario extends javax.swing.JDialog {
     
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
-            boolean resultado = fachada.novoUsuario(txtNome.getText(), txtEmail.getText(), txtCpfCnpj.getText());
-            if(resultado)
-                this.dispose();
+            if(!ValidadorUsuario.getInstance().validaCpfCnpj(txtCpfCnpj.getText()))
+                JOptionPane.showMessageDialog(null, "Cpf/Cnpj inválido");
+            else if(!ValidadorUsuario.getInstance().validaNome(txtNome.getText()))
+                JOptionPane.showMessageDialog(null, "Nome inválido(5 <= nome <= 50)");
+            else if(ValidadorUsuario.getInstance().validaEmail(txtEmail.getText())) {
+                boolean resultado = fachada.novoUsuario(txtNome.getText(), txtEmail.getText(), txtCpfCnpj.getText());
+                if(resultado) {
+                    this.dispose();
+                    JOptionPane.showMessageDialog(null, "Criado com sucesso.");
+                }
+            } else JOptionPane.showMessageDialog(null, "Email inválido(5 <= email <= 50)");
         } catch(LeilaoException e) {
             JOptionPane.showMessageDialog(null, "Erro: "+e.getMessage());
             Logger.getLogger(DlgUsuario.class.getName()).log(Level.SEVERE, null, e);
@@ -155,7 +164,7 @@ public class DlgUsuario extends javax.swing.JDialog {
     private void btnCancelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelaActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelaActionPerformed
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancela;
     private javax.swing.JButton btnSalvar;

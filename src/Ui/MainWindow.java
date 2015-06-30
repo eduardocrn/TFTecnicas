@@ -5,7 +5,7 @@
  */
 package Ui;
 
-import Business.LeilaoFachada;
+import Business.Fachada;
 
 /**
  *
@@ -13,13 +13,13 @@ import Business.LeilaoFachada;
  */
 public class MainWindow extends javax.swing.JFrame {
 
-    private LeilaoFachada fachada;
+    private Fachada fachada;
     /**
      * Creates new form MainWindow
      */
     public MainWindow() {
         initComponents();
-        fachada = new LeilaoFachada();
+        fachada = new Fachada();
     }
 
     /**
@@ -192,7 +192,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNovoLanceActionPerformed
 
     private void btnNovoLeilaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoLeilaoActionPerformed
-        DlgLeilao leilaoFrame = new DlgLeilao(this, true);
+        DlgLeilao leilaoFrame = new DlgLeilao(this, true, fachada);
         leilaoFrame.setVisible(true);
     }//GEN-LAST:event_btnNovoLeilaoActionPerformed
 
@@ -207,7 +207,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_tableLeilaoMouseClicked
 
     private void btnNovaCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaCategoriaActionPerformed
-        DlgCategoria dl = new DlgCategoria(this, true);
+        DlgCategoria dl = new DlgCategoria(this, true, fachada);
         dl.setVisible(true);
     }//GEN-LAST:event_btnNovaCategoriaActionPerformed
 
