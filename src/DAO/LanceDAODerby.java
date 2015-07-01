@@ -57,11 +57,11 @@ public class LanceDAODerby implements LanceDAO {
         String sql = "INSERT INTO Lances (Data, Hora, Valor, Usuario_id, Leilao_id) VALUES (?,?,?,?,?)";
         try (Connection conexao = InicializadorBd.conectarBd()) {
             try (PreparedStatement comando = conexao.prepareStatement(sql)) {
-                comando.setDate(2, new java.sql.Date(lance.getData().getTime()));
-                comando.setTime(3, lance.getHora());
-                comando.setBigDecimal(4, lance.getValor());
-                comando.setInt(5, lance.getUsuario().getIdUsuario());
-                comando.setInt(6, lance.getIdLance());
+                comando.setDate(1, new java.sql.Date(lance.getData().getTime()));
+                comando.setTime(2, lance.getHora());
+                comando.setBigDecimal(3, lance.getValor());
+                comando.setInt(4, lance.getUsuario().getIdUsuario());
+                comando.setInt(5, lance.getLeilao().getIdLeilao());
                 resultado = comando.executeUpdate();
             }
         } catch (Exception ex) {
