@@ -27,6 +27,10 @@ public class Bem {
     public void setDescricaoBreve(String descricaoBreve) {
         this.descricaoBreve = descricaoBreve;
     }
+    
+    public void setLeilao_id(int id){
+        leilao_id = id;
+    }
 
     public String getDescricaoCompleta() {
         return descricaoCompleta;

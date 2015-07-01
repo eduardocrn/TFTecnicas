@@ -15,6 +15,7 @@ import Domain.Natureza;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +30,9 @@ public class LeilaoDAODerby implements LeilaoDAO {
         BemDAO bemDao = new BemDaoDerby();
         int resultado;
         String sql = "INSERT INTO Leiloes (DataInicio, HoraInicio, DataFim, HoraFim, Natureza, FormaLance, ValorLote, Usuario_id) VALUES (?,?,?,?,?,?,?,?)";
-        try (Connection conexao = InicializadorBd.conectarBd()) {
-            try (PreparedStatement comando = conexao.prepareStatement(sql)) {
+        int id = 0;
+            try (Connection conexao = InicializadorBd.conectarBd()) {
+            try (PreparedStatement comando = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 comando.setDate(1, new java.sql.Date(leilao.getDataInicio().getTime()));
                 comando.setTime(2, leilao.getHoraInicio());
                 comando.setDate(3, new java.sql.Date(leilao.getDataFim().getTime()));
@@ -40,13 +42,16 @@ public class LeilaoDAODerby implements LeilaoDAO {
                 comando.setBigDecimal(7, leilao.getValorLote());
                 comando.setInt(8, leilao.getUsuario().getIdUsuario());
                 resultado = comando.executeUpdate();
+                ResultSet rs = comando.getGeneratedKeys();
+                id = rs.next()?rs.getInt(1):0;
             }
         } catch (Exception ex) {
             throw new DAOException("Falha na inserção. " + ex.getMessage());
         }
         try{
             for (Bem bem : leilao.getBens()) {
-                
+                bem.setLeilao_id(id);
+                bemDao.criarBEm(bem);
             }
         }catch(Exception e) {
             
